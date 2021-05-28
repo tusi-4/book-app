@@ -26,15 +26,19 @@
     for(let book in dataSource.books){
       const oneBook = dataSource.books[book];
 
+      const ratingBgc = determineRatingBgc(oneBook.rating);
+
+      const ratingWidth = oneBook.rating * 10;
+
+      oneBook.ratingBgc = ratingBgc;
+
+      oneBook.ratingWidth = ratingWidth;
+
       const generatedHTML = templates.bookHT(oneBook);
 
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
 
       thisBook.booksList.appendChild(generatedDOM);
-
-      const ratingBgc = determineRatingBgc(book.rating);
-
-      const ratingWidth = book.rating * 10;
     }
   }
 
@@ -67,11 +71,11 @@
     }
 
     thisBook.filterBox.addEventListener('click', function(){
-      const clickedBox = event.target
+      const clickedBox = event.target;
 
       if(clickedBox.tagName == 'INPUT' && clickedBox.type == 'checkbox' && clickedBox.name == 'filter'){
-        if(clickedBox.checkbox == true){
-          filters.push(clickedBox.value)
+        if(clickedBox.checked == true){
+          filters.push(clickedBox.value);
         } else {
           const unfiltered = filters.indexOf(clickedBox.value);
           filters.splice(unfiltered, 1);
@@ -86,9 +90,9 @@
 
   function filterBooks(){
     for(let book of dataSource.books){
-      const shouldBeHidden = false;
-
-      for(const filter of filters){
+      let shouldBeHidden = false;
+      // tutaj const byl wziety z podpowiedzi Kodilli
+      for(let filter of filters){
         if(!book.details[filter]){
           shouldBeHidden = true;
           break;
@@ -108,7 +112,7 @@
 
 
   function determineRatingBgc(rating){
-    const background = '';
+    let background = '';
     if(rating < 6){
       background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);';
     } else if(rating > 6 && rating <= 8){
