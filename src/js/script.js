@@ -56,7 +56,6 @@
       const thisBooksList = this;
 
       thisBooksList.booksList = document.querySelector(select.containerOf.booksList);
-      thisBooksList.covers = thisBooksList.booksList.querySelectorAll(select.booksCovers.image);
       thisBooksList.filterBox = document.querySelector(select.containerOf.filters);
 
       thisBooksList.favoriteBooks = [];
@@ -66,17 +65,19 @@
     initActions() {
       const thisBooksList = this;
 
+      thisBooksList.covers = thisBooksList.booksList.querySelectorAll(select.booksCovers.image);
+
       for(let cover of thisBooksList.covers){
-        thisBooksList.cover.addEventListener('dblclick', function(){
+        cover.addEventListener('dblclick', function(){
           event.preventDefault();
 
           if(event.target.offsetParent.classList.contains('book__image')){
-            if(thisBooksList.cover.classList.contains('favorite')){
-              thisBooksList.cover.classList.remove('favorite');
-              const favBook = favoriteBooks.indexOf(cover.getAttribute('data-id'));
+            if(cover.classList.contains('favorite')){
+              cover.classList.remove('favorite');
+              const favBook = thisBooksList.favoriteBooks.indexOf(cover.getAttribute('data-id'));
               thisBooksList.favoriteBooks.splice(favBook, 1);
             } else {
-              thisBooksList.cover.classList.add('favorite');
+              cover.classList.add('favorite');
               const clickedCover = cover.getAttribute('data-id');
               thisBooksList.favoriteBooks.push(clickedCover);
             }
@@ -124,8 +125,6 @@
     }
 
     determineRatingBgc(rating) {
-      const thisBooksList = this;
-
       let background = '';
       if(rating < 6){
         background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%);';
@@ -141,6 +140,7 @@
   }
 
   const app = new BooksList();
+  app;
 }
 
 
@@ -151,7 +151,7 @@
 
 
 
-  /* SPOCZKO
+/* SPOCZKO
   function renderBooks(){
     const thisBook = this;
 
